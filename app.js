@@ -14,4 +14,13 @@ app.get('/notes', asyncHandler(async (req, res) => {
     res.json({ notes: result.rows });
 }));
 
+app.post('/notes', asyncHandler(async (req, res) => {
+    const query = {
+        text: 'INSERT INTO notes VALUES ($1, $2);',
+        values: [req.body.note, new Date()],
+    };
+    await pool.query(query);
+    res.sendStatus(200);
+}));
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
