@@ -5,5 +5,16 @@ const connectionString = process.env.CONNECTION_STRING;
 const pool = new Pool({connectionString});
 
 (async () => {
-    // the rest of the script goes here
+    const timestamp = new Date();
+    timestamp.setHour(timestamp.getHours() - 1);
+    const query = {
+        text: 'SELECT * FROM notes WHERE created >= $1;',
+        values: [timestamp],
+    };
+    const result = await pool.query(query);
+
+    if (result.rows.length === 0) {
+        console.log('No latest notes');
+        process.exit();
+    }
 })();
