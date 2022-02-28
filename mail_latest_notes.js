@@ -6,7 +6,7 @@ const pool = new Pool({connectionString});
 
 (async () => {
     const timestamp = new Date();
-    timestamp.setHour(timestamp.getHours() - 1);
+    timestamp.setHours(timestamp.getHours() - 1);
     const query = {
         text: 'SELECT * FROM notes WHERE created >= $1;',
         values: [timestamp],
