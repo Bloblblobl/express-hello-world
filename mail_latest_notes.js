@@ -17,4 +17,24 @@ const pool = new Pool({connectionString});
         console.log('No latest notes');
         process.exit();
     }
+
+    const emailMessage = result.rows.map(note => note.text).join('<br>');
+    const mailjetResponse = await mailjet
+        .post('send', {'version': 'v3.1'})
+        .request({
+            'Messages':[{
+                'From': {
+                    'Email': process.env.USER_EMAIL,
+                    'Name': process.env.USER_NAME
+                },
+                'To': [{
+                    'Email': process.env.USER_EMAIL,
+                    'Name': process.env.USER_NAME
+                }],
+                'Subject': 'Latest Notes',
+                'HTMLPart': `<p>${emailMessage}</p>`
+            }]
+        });
+
+    console.log(mailjetResponse);
 })();
