@@ -23,4 +23,4 @@ app.post('/notes', asyncHandler(async (req, res) => {
     res.sendStatus(200);
 }));
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Notes server listening on port ${port}!`));
